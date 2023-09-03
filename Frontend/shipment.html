@@ -3,11 +3,11 @@
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 <script>
     angular.module('my-app', [])
-        .controller('ShipmentController', function ($scope, $http) {
+        .controller('ShipmentController', function ($scope, $http, $window) {
             $scope.shipment = {
                 CustomerId: null,
                 ReceiverId: null,
-                ShipperId: null,
+                ShipperID: null,
                 Destination: '',
                 From: '',
                 EstimatedDeliveryTime: null
@@ -53,11 +53,15 @@
                         $scope.shipment = {
                             CustomerId: null,
                             ReceiverId: null,
-                            ShipperId: null,
+                            ShipperID: null,
                             Destination: '',
                             From: '',
                             EstimatedDeliveryTime: null
                         };
+
+                        var url = "dashboard.html";
+                        $window.location.href = url;
+
                     }, function error(response) {
                         console.error('Error creating shipment:', response);
                     });
@@ -85,13 +89,13 @@
             </div>
 
             <div>
-                <label for="ShipperId">Receiver ID:</label>
-                <select id="ShipperId" ng-model="shipment.ShipperId" required>
+                <label for="ShipperID">Shipper ID:</label>
+                <select id="ShipperID" ng-model="shipment.ShipperID" required>
                     <option value="" disabled>Select Receiver ID</option>
-                    <option ng-repeat="ShipperId in ShipperIds" value="{{ShipperId}}">{{ShipperId}}</option>
+                    <option ng-repeat="ShipperID in ShipperIDs" value="{{ShipperID}}">{{ShipperID}}</option>
                 </select>
             </div>
-            
+
             <div>
                 <label for="Destination">Destination:</label>
                 <input type="text" id="Destination" ng-model="shipment.Destination" required>
