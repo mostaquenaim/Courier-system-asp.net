@@ -76,11 +76,11 @@ namespace PiistechCourier.Controllers
         } */
 
         //[AdminAccess]
-        [HttpGet]
-        [Route("delete/{id}")]
-        public HttpResponseMessage DeleteShipment(string id)
+        [HttpDelete]
+        [Route("delete/{trackingToken}")]
+        public HttpResponseMessage DeleteShipment(string trackingToken)
         {
-            var res = ShipmentService.DeleteShipment(id);
+            var res = ShipmentService.DeleteShipment(trackingToken);
             return Request.CreateResponse(HttpStatusCode.OK, res);
 
         }
