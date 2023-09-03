@@ -1,13 +1,115 @@
 <!DOCTYPE html>
 <html lang="en-US">
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-    <script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script>
+    angular.module('my-app', [])
+        .controller('ShipmentController', function ($scope, $http) {
+            $scope.shipment = {
+                CustomerId: null,
+                ReceiverId: null,
+                ShipperId: null,
+                Destination: '',
+                From: '',
+                EstimatedDeliveryTime: null
+            };
 
+            // Fetch Customer IDs from the API
+            $http.get('https://localhost:44324/api/customer/all')
+                .then(function success(response) {
+                    $scope.CustomerIds = response.data.map(function (customer) {
+                        return customer.Id;
+                    });
+                }, function error(response) {
+                    console.error('Error fetching customer IDs:', response);
+                });
+
+            // Fetch Receiver IDs from the API
+            $http.get('https://localhost:44324/api/receiver/all')
+                .then(function success(response) {
+                    $scope.ReceiverIds = response.data.map(function (receiver) {
+                        return receiver.Id;
+                    });
+                }, function error(response) {
+                    console.error('Error fetching receiver IDs:', response);
+                });
+
+            $http.get('https://localhost:44324/api/shipper/all')
+                .then(function success(response) {
+                    $scope.ShipperIDs = response.data.map(function (shipper) {
+                        return shipper.ID;
+                    });
+                }, function error(response) {
+                    console.error('Error fetching receiver IDs:', response);
+                });
+
+
+
+
+            $scope.addShipment = function () {
+                $http.post('https://localhost:44324/api/shipment/create', $scope.shipment)
+                    .then(function success(response) {
+                        console.log('Shipment created:', response.data);
+
+                        $scope.shipment = {
+                            CustomerId: null,
+                            ReceiverId: null,
+                            ShipperId: null,
+                            Destination: '',
+                            From: '',
+                            EstimatedDeliveryTime: null
+                        };
+                    }, function error(response) {
+                        console.error('Error creating shipment:', response);
+                    });
+            };
+        });
 </script>
-    <body ng-app="my-app">
-       
-        <script>
-           
-          </script>
-    </body>
+
+<body ng-app="my-app">
+    <div ng-controller="ShipmentController">
+        <h1>Add Shipment</h1>
+        <form>
+            <div>
+                <label for="CustomerId">Customer ID:</label>
+                <select id="CustomerId" ng-model="shipment.CustomerId" required>
+                    <option value="" disabled>Select Customer ID</option>
+                    <option ng-repeat="CustomerId in CustomerIds" value="{{CustomerId}}">{{CustomerId}}</option>
+                </select>
+            </div>
+            <div>
+                <label for="ReceiverId">Receiver ID:</label>
+                <select id="ReceiverId" ng-model="shipment.ReceiverId" required>
+                    <option value="" disabled>Select Receiver ID</option>
+                    <option ng-repeat="ReceiverId in ReceiverIds" value="{{ReceiverId}}">{{ReceiverId}}</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="ShipperId">Receiver ID:</label>
+                <select id="ShipperId" ng-model="shipment.ShipperId" required>
+                    <option value="" disabled>Select Receiver ID</option>
+                    <option ng-repeat="ShipperId in ShipperIds" value="{{ShipperId}}">{{ShipperId}}</option>
+                </select>
+            </div>
+            
+            <div>
+                <label for="Destination">Destination:</label>
+                <input type="text" id="Destination" ng-model="shipment.Destination" required>
+            </div>
+            <div>
+                <label for="From">From:</label>
+                <input type="text" id="From" ng-model="shipment.From" required>
+            </div>
+            <div>
+                <label for="EstimatedDeliveryTime">Estimated Delivery Time:</label>
+                <input type="datetime-local" id="EstimatedDeliveryTime" ng-model="shipment.EstimatedDeliveryTime"
+                    required>
+            </div>
+            <div>
+                <button type="button" ng-click="addShipment()">Add Shipment</button>
+            </div>
+        </form>
+    </div>
+</body>
+
 </html>

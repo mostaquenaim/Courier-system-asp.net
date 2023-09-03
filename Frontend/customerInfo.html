@@ -11,9 +11,9 @@
                 email: ''
             };
 
-            $scope.customerDetails = null; // Initialize customer details to null
+            $scope.customerDetails = null; 
 
-            $scope.nextButtonText = 'Show'; // Initialize button text
+            $scope.nextButtonText = 'Show'; 
 
             $scope.next = function () {
                 if ($scope.nextButtonText === 'Show') {
@@ -24,7 +24,7 @@
                         Address: $scope.customer.address,
                         Email: $scope.customer.email
                     };
-                    // Display customer details
+
                     $http.post('https://localhost:44324/api/customer/create', customerData)
                         .then(function success(response) {
                             $scope.customerDetails = response.data;

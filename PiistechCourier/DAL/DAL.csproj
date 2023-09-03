@@ -80,6 +80,10 @@
     <Compile Include="Migrations\202309031436105_NewShipmentEdit1.designer.cs">
       <DependentUpon>202309031436105_NewShipmentEdit1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202309031730167_Id-key-shipment.cs" />
+    <Compile Include="Migrations\202309031730167_Id-key-shipment.designer.cs">
+      <DependentUpon>202309031730167_Id-key-shipment.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Admin.cs" />
     <Compile Include="Models\CourierContext.cs" />
@@ -121,6 +125,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202309031436105_NewShipmentEdit1.resx">
       <DependentUpon>202309031436105_NewShipmentEdit1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202309031730167_Id-key-shipment.resx">
+      <DependentUpon>202309031730167_Id-key-shipment.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

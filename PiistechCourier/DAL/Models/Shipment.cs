@@ -10,6 +10,7 @@ namespace DAL.Models
 {
     public class Shipment
     {
+        [Key]
         public int Id { get; set; }
 
         [ForeignKey("Shipper")]

@@ -94,6 +94,7 @@ namespace PiistechCourier.Controllers
             {
                 dto.TrackingToken = Guid.NewGuid().ToString();
                 dto.CreatedAt = DateTime.Now;
+                dto.StatusId = 1;
 
                 var data = ShipmentService.Create(dto);
 
