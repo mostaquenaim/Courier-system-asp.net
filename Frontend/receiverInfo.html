@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script>
+    angular.module('my-app', [])
+        .controller('ReceiverInfoController', function ($scope, $http, $window) {
+            $scope.receiver = {
+                name: '',
+                phoneNo: '',
+                address: '',
+                email: ''
+            };
+
+            $scope.receiverDetails = null; // Initialize receiver details to null
+
+            $scope.nextButtonText = 'Show'; // Initialize button text
+
+            $scope.next = function () {
+                if ($scope.nextButtonText === 'Show') {
+
+                    var receiverData = {
+                        Name: $scope.receiver.name,
+                        PhoneNo: $scope.receiver.phoneNo,
+                        Address: $scope.receiver.address,
+                        Email: $scope.receiver.email
+                    };
+                    // Display receiver details
+                    $http.post('https://localhost:44324/api/receiver/create', receiverData)
+                        .then(function success(response) {
+                            $scope.receiverDetails = response.data;
+                            $scope.nextButtonText = 'Next';
+                        }, function error(response) {
+                            console.error('Error getting receiver details:', response);
+                        });
+                } else {
+                    var url = "shipment.html";
+                    $window.location.href = url;
+                }
+            };
+        });
+</script>
+
+<body ng-app="my-app">
+    <div ng-controller="ReceiverInfoController">
+        <h1>Receiver Information</h1>
+        <!-- Display receiver details when available -->
+        <div ng-if="receiverDetails">
+            <p><strong>Id:</strong> {{ receiverDetails.Id }}</p>
+            <p><strong>Name:</strong> {{ receiverDetails.Name }}</p>
+            <p><strong>Phone Number:</strong> {{ receiverDetails.PhoneNo }}</p>
+            <p><strong>Address:</strong> {{ receiverDetails.Address }}</p>
+            <p><strong>Email:</strong> {{ receiverDetails.Email }}</p>
+        </div>
+        <form >
+            <div ng-if="!receiverDetails">
+            <div>
+                <label for="name">Name:</label>
+                <input type="text" id="name" ng-model="receiver.name" required>
+            </div>
+            <div>
+                <label for="phoneNo">Phone Number:</label>
+                <input type="text" id="phoneNo" ng-model="receiver.phoneNo" required>
+            </div>
+            <div>
+                <label for="address">Address:</label>
+                <input type="text" id="address" ng-model="receiver.address">
+            </div>
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" id="email" ng-model="receiver.email">
+            </div>
+            </div>
+            <div>
+                <button type="button" ng-click="next()">{{ nextButtonText }}</button>
+            </div>
+        </form>
+
+        
+
+
+    </div>
+</body>
+
+</html>

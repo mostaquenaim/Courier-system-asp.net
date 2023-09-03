@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script>
+
+</script>
+    <body ng-app="my-app">
+        <div ng-controller="AdminController">
+            <h1>Admin Dashboard</h1>
+            <button ng-click="btn1()">Add a new courier</button> <br>
+            <!-- <button ng-click="btn2()">Manage Shipment</button> <br>
+            <button ng-click="btn3()">Add Shipper, Receiver, and Shipment Info</button> <br>
+            <button ng-click="btn4()">Edit/Update Shipment</button> <br>
+            <button ng-click="redirectTo('listShipment.html')">List All Shipments</button> <br>
+            <button ng-click="redirectTo('searchByConsignment.html')">Search By Consignment Number</button> <br>
+            <button ng-click="redirectTo('projectReports.html')">Reports of the Project</button><br>
+            <button ng-click="redirectTo('customerReports.html')">Report of All Customers</button> <br>
+            <button ng-click="redirectTo('consignmentReports.html')">Report of All Consignments</button> <br>
+            <button ng-click="redirectTo('shipperReports.html')">Report of All Shippers</button> <br>
+            <button ng-click="redirectTo('pickupReports.html')">Report of All Pickup Date/Time</button> <br>
+            <button ng-click="redirectTo('statusReports.html')">Report of All Status</button> <br> -->
+        </div>
+        <script>
+            var app = angular.module('my-app', []);
+            app.controller('AdminController', function($scope, $window) {
+              
+              $scope.btn1 = function(){
+                
+                var url = "customerInfo.html";
+                $window.location.href = url;
+              }
+            });
+          </script>
+    </body>
+</html>

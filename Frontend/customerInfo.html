@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script>
+    angular.module('my-app', [])
+        .controller('CustomerInfoController', function ($scope, $http, $window) {
+            $scope.customer = {
+                name: '',
+                phoneNo: '',
+                address: '',
+                email: ''
+            };
+
+            $scope.customerDetails = null; // Initialize customer details to null
+
+            $scope.nextButtonText = 'Show'; // Initialize button text
+
+            $scope.next = function () {
+                if ($scope.nextButtonText === 'Show') {
+
+                    var customerData = {
+                        Name: $scope.customer.name,
+                        PhoneNo: $scope.customer.phoneNo,
+                        Address: $scope.customer.address,
+                        Email: $scope.customer.email
+                    };
+                    // Display customer details
+                    $http.post('https://localhost:44324/api/customer/create', customerData)
+                        .then(function success(response) {
+                            $scope.customerDetails = response.data;
+                            $scope.nextButtonText = 'Next';
+                        }, function error(response) {
+                            console.error('Error getting customer details:', response);
+                        });
+                } else {
+                    var url = "receiverInfo.html";
+                    $window.location.href = url;
+                }
+            };
+        });
+</script>
+
+<body ng-app="my-app">
+    <div ng-controller="CustomerInfoController">
+        <h1>Customer Information</h1>
+        <!-- Display customer details when available -->
+        <div ng-if="customerDetails">
+            <p><strong>Id:</strong> {{ customerDetails.Id }}</p>
+            <p><strong>Name:</strong> {{ customerDetails.Name }}</p>
+            <p><strong>Phone Number:</strong> {{ customerDetails.PhoneNo }}</p>
+            <p><strong>Address:</strong> {{ customerDetails.Address }}</p>
+            <p><strong>Email:</strong> {{ customerDetails.Email }}</p>
+        </div>
+        <form >
+            <div ng-if="!customerDetails">
+            <div>
+                <label for="name">Name:</label>
+                <input type="text" id="name" ng-model="customer.name" required>
+            </div>
+            <div>
+                <label for="phoneNo">Phone Number:</label>
+                <input type="text" id="phoneNo" ng-model="customer.phoneNo" required>
+            </div>
+            <div>
+                <label for="address">Address:</label>
+                <input type="text" id="address" ng-model="customer.address">
+            </div>
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" id="email" ng-model="customer.email">
+            </div>
+            </div>
+            <div>
+                <button type="button" ng-click="next()">{{ nextButtonText }}</button>
+            </div>
+        </form>
+
+        
+
+
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+</head>
+
+<body ng-app="my-app" ng-controller="trackingController">
+
+    <div>
+        <h2>Shipment Tracking</h2>
+        <label for="trackingToken">Enter Tracking Token:</label>
+        <input type="text" id="trackingToken" ng-model="trackingToken">
+        <button ng-click="trackShipment()">Track Shipment</button>
+    </div>
+
+    <div ng-if="shipment">
+        <h3>Shipment Details</h3>
+        <p><strong>ID:</strong> {{ shipment.Id }}</p>
+        <p><strong>Destination:</strong> {{ shipment.Destination }}</p>
+        <p><strong>From:</strong> {{ shipment.From }}</p>
+        <p><strong>Created At:</strong> {{ shipment.CreatedAt }}</p>
+        <p><strong>Current Status: </strong> {{ statusDetails.Name }}</p>
+    </div>
+
+    <div ng-if="error">
+        <p><strong>Error:</strong> {{ error }}</p>
+    </div>
+
+    <script>
+        var app = angular.module("my-app", []);
+
+        app.controller('trackingController', function ($scope, $http) {
+            $scope.trackingToken = '';
+            $scope.shipment = null;
+            $scope.error = null;
+
+            $scope.trackShipment = function () {
+                var token = $scope.trackingToken;
+
+                $http.get('https://localhost:44324/api/shipment/track/' + token)
+        .then(function success(response) {
+            console.log(response);
+            $scope.shipment = response.data;
+
+            var statusId = response.data.StatusId;
+
+            $http.get('https://localhost:44324/api/status/' + statusId)
+                .then(function success(statusResponse) {
+                    console.log(statusResponse);
+
+                    var statusDetails = statusResponse.data;
+                    console.log("Status Details: ", statusDetails);
+
+                    $scope.statusDetails = statusDetails;
+                }, function error(statusResponse) {
+                    console.log(statusResponse);
+                });
+                }, function error(response) {
+                    console.log(response)
+
+
+                });
+
+
+            };
+        });
+    </script>
+
+</body>
+
+</html>

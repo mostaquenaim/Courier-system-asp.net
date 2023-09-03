@@ -1,0 +1,14 @@
+E:\.net\PiistechCourier\BLL\bin\Debug\BLL.dll
+E:\.net\PiistechCourier\BLL\bin\Debug\BLL.pdb
+E:\.net\PiistechCourier\BLL\bin\Debug\DAL.dll
+E:\.net\PiistechCourier\BLL\bin\Debug\EntityFramework.dll
+E:\.net\PiistechCourier\BLL\bin\Debug\DAL.pdb
+E:\.net\PiistechCourier\BLL\bin\Debug\DAL.dll.config
+E:\.net\PiistechCourier\BLL\bin\Debug\EntityFramework.xml
+E:\.net\PiistechCourier\BLL\obj\Debug\BLL.csproj.AssemblyReference.cache
+E:\.net\PiistechCourier\BLL\obj\Debug\BLL.csproj.CoreCompileInputs.cache
+E:\.net\PiistechCourier\BLL\obj\Debug\BLL.csproj.CopyComplete
+E:\.net\PiistechCourier\BLL\obj\Debug\BLL.dll
+E:\.net\PiistechCourier\BLL\obj\Debug\BLL.pdb
+E:\.net\PiistechCourier\BLL\bin\Debug\AutoMapper.dll
+E:\.net\PiistechCourier\BLL\bin\Debug\AutoMapper.xml

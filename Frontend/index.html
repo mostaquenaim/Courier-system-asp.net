@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+</head>
+<body ng-app="my-app" ng-controller="roleSelectionCtrl">
+
+    <div>
+        <h2>Select Your Role</h2>
+        <label>
+            <input type="radio" ng-model="selectedRole" value="Admin">
+            Admin
+        </label>
+        <label>
+            <input type="radio" ng-model="selectedRole" value="Customer">
+            Customer
+        </label>
+        <label>
+            <input type="radio" ng-model="selectedRole" value="Shipper">
+            Shipper
+        </label>
+        <button ng-click="next()">Next</button>
+    </div>
+
+    <script>
+        var app = angular.module("my-app", []);
+
+        app.controller('roleSelectionCtrl', function ($scope, $window) {
+
+            $scope.selectedRole = '';
+
+
+            $scope.next = function () {
+
+                if ($scope.selectedRole === 'Admin') {
+
+                    $window.location.href = 'admin.html';
+                } else if ($scope.selectedRole === 'Customer') {
+
+                    $window.location.href = 'tracking.html';
+                }
+
+            };
+        });
+    </script>
+
+</body>
+</html>
