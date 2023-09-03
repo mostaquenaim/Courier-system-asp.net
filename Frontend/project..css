@@ -1,0 +1,44 @@
+    /* Add some basic styling to the table */
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    /* Style the table header (thead) */
+    th {
+        background-color: #f2f2f2;
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    /* Style the table rows (tbody) */
+    tr {
+        border: 1px solid #dddddd;
+    }
+
+    /* Style alternating rows for better readability */
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    /* Style the table cells (td) */
+    td {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    /* Style the delete button */
+    button {
+        background-color: #ff0000;
+        color: white;
+        border: none;
+        padding: 6px 10px;
+        cursor: pointer;
+    }
+
+    /* Add some spacing around the table */
+    .table-container {
+        margin: 20px;
+    }
