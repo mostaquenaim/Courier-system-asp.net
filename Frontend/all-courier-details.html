@@ -1,72 +1,97 @@
 <!DOCTYPE html>
 <html lang="en-US">
-    <link rel="stylesheet" href="project..css">
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-    <script>
-        angular.module('my-app', [])
-            .controller('ShipmentController', function ($scope, $http) {
-                $scope.shipments = [];
+<link rel="stylesheet" href="project..css">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script>
+    angular.module('my-app', [])
+        .controller('ShipmentController', function ($scope, $http) {
+            $scope.shipments = [];
 
-                // Function to fetch all shipment details
-                $scope.fetchShipments = function () {
-                    $http.get('https://localhost:44324/api/shipment/all')
-                        .then(function success(response) {
-                            $scope.shipments = response.data;
-                        }, function error(response) {
-                            console.error('Error fetching shipments:', response);
+            $scope.fetchStatus = function (shipment) {
+                $http.get('https://localhost:44324/api/status/' + shipment.StatusId)
+                    .then(function success(response) {
+                        shipment.StatusName = response.data.Name;
+                    }, function error(response) {
+                        console.error('Error fetching status:', response);
+                    });
+            };
+
+            $scope.fetchShipments = function () {
+                $http.get('https://localhost:44324/api/shipment/all')
+                    .then(function success(response) {
+                        $scope.shipments = response.data;
+
+                        angular.forEach($scope.shipments, function (shipment) {
+                            $scope.fetchStatus(shipment);
                         });
-                };
+                    }, function error(response) {
+                        console.error('Error fetching shipments:', response);
+                    });
+            };
 
-                // Function to delete a shipment by tracking token
-                $scope.deleteShipment = function (trackingToken) {
-                    // debugger;
-                    if (confirm('Are you sure you want to delete this shipment?')) {
-                        $http.delete('https://localhost:44324/api/shipment/delete/' + trackingToken)
-                            .then(function success(response) {
 
-                                $scope.fetchShipments();
-                            }, function error(response) {
-                                // debugger;
-                                console.error('Error deleting shipment:', response);
-                            });
-                    }
-                };
+            $scope.deleteShipment = function (trackingToken) {
+                // debugger;
+                if (confirm('Are you sure you want to delete this shipment?')) {
+                    $http.delete('https://localhost:44324/api/shipment/delete/' + trackingToken)
+                        .then(function success(response) {
 
-                // Initial fetch of shipments
-                $scope.fetchShipments();
-            });
-    </script>
-    <body ng-app="my-app">
-        <div ng-controller="ShipmentController">
-            <h1>Shipment Details</h1>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Tracking Token</th>
-                        <th>Customer ID</th>
-                        <th>Receiver ID</th>
-                        <th>Shipper ID</th>
-                        <th>Destination</th>
-                        <th>From</th>
-                        <th>Estimated Delivery Time</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="shipment in shipments">
-                        <td>{{ shipment.TrackingToken }}</td>
-                        <td>{{ shipment.CustomerId }}</td>
-                        <td>{{ shipment.ReceiverId }}</td>
-                        <td>{{ shipment.ShipperId }}</td>
-                        <td>{{ shipment.Destination }}</td>
-                        <td>{{ shipment.From }}</td>
-                        <td>{{ shipment.EstimatedDeliveryTime }}</td>
-                        <td>
-                            <button ng-click="deleteShipment(shipment.TrackingToken)">Delete</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </body>
+                            $scope.fetchShipments();
+                        }, function error(response) {
+                            // debugger;
+                            console.error('Error deleting shipment:', response);
+                        });
+                }
+            };
+
+            
+
+
+
+            $scope.fetchShipments();
+        });
+</script>
+
+<body ng-app="my-app">
+    <div ng-controller="ShipmentController">
+        <h1>Shipment Details</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Tracking Token</th>
+                    <th>Customer ID</th>
+                    <th>Receiver ID</th>
+                    <th>Shipper ID</th>
+                    <th>Destination</th>
+                    <th>From</th>
+                    <th>Estimated Delivery Time</th>
+                    <th>Current Status</th>
+                    <th>Update</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="shipment in shipments">
+                    <td>{{ shipment.TrackingToken }}</td>
+                    <td>{{ shipment.CustomerId }}</td>
+                    <td>{{ shipment.ReceiverId }}</td>
+                    <td>{{ shipment.ShipperId }}</td>
+                    <td>{{ shipment.Destination }}</td>
+                    <td>{{ shipment.From }}</td>
+                    <td>{{ shipment.EstimatedDeliveryTime }}</td>
+                    <td>
+                        {{ shipment.StatusName }}
+                    </td>
+                    <td>
+                        <a ng-href="update-courier.html?trackingToken={{ shipment.TrackingToken }}">Edit</a>
+                    </td>
+                    <td>
+                        <button ng-click="deleteShipment(shipment.TrackingToken)">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+
 </html>

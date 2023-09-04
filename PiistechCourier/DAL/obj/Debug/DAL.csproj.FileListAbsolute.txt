@@ -18,3 +18,5 @@ E:\.net\PiistechCourier\DAL\obj\Debug\DAL.Migrations.NewEdit.resources
 E:\.net\PiistechCourier\DAL\obj\Debug\DAL.Migrations.NewShipmentEdit.resources
 E:\.net\PiistechCourier\DAL\obj\Debug\DAL.Migrations.NewShipmentEdit1.resources
 E:\.net\PiistechCourier\DAL\obj\Debug\DAL.Migrations.Idkeyshipment.resources
+E:\.net\PiistechCourier\DAL\obj\Debug\DAL.Migrations.KeyAdded.resources
+E:\.net\PiistechCourier\DAL\obj\Debug\DAL.Migrations.requiredDb.resources

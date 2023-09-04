@@ -1,0 +1,125 @@
+<html lang="en-US">
+<style>
+    table,
+    th,
+    td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script>
+    angular.module('my-app', [])
+        .controller('UpdateController', function ($scope, $http, $location, $window) {
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const trackingToken = urlParams.get('trackingToken');
+
+
+            $scope.shipmentDetails = {};
+
+            $scope.fetchShipmentDetails = function () {
+                $http.get('https://localhost:44324/api/shipment/track/' + trackingToken)
+                    .then(function success(response) {
+                        $scope.shipmentDetails = response.data;
+                        $scope.temp = response.data;
+                    }, function error(response) {
+                        console.error('Error fetching shipment details:', response);
+                    });
+            };
+
+
+            $http.get('https://localhost:44324/api/shipper/all')
+                .then(function success(response) {
+                    $scope.shippers = response.data;
+                }, function error(response) {
+                    console.error('Error fetching shippers:', response);
+                });
+
+
+                $http.get('https://localhost:44324/api/status/all')
+                .then(function success(response) {
+                    $scope.statuses = response.data;
+                }, function error(response) {
+                    console.error('Error fetching statuses:', response);
+                });
+
+
+                $scope.updateShipment = function () {
+
+                    $scope.shipmentDetails.EstimatedDeliveryTime = new Date($scope.shipmentDetails.EstimatedDeliveryTime);
+
+
+                    $scope.shipmentDetails.StatusId = parseInt($scope.shipmentDetails.StatusId);
+                $scope.shipmentDetails.ShipperId = parseInt($scope.shipmentDetails.ShipperId);
+
+
+                $http.put('https://localhost:44324/api/shipment/update', $scope.shipmentDetails)
+                    .then(function success(response) {
+
+                        console.log('Shipment updated successfully:', response);
+                        $window.location.href = 'all-courier-details.html';
+                    }, function error(response) {
+
+                        console.error('Error updating shipment:', response);
+                    });
+            };
+
+
+            $scope.fetchShipmentDetails();
+        });
+
+</script>
+
+<body ng-app="my-app">
+    <div ng-controller="UpdateController">
+        <h1>Shipment Details</h1>
+        <form>
+            <div hidden>
+                <label for="trackingToken">Tracking Token:</label>
+                <input type="text" id="trackingToken" name="trackingToken" ng-model="shipmentDetails.TrackingToken"
+                    readonly>
+            </div>
+            <div hidden>
+                <label for="customerId">Customer ID:</label>
+                <input type="text" id="customerId" name="customerId" ng-model="shipmentDetails.CustomerId" readonly>
+            </div>
+            <div hidden>
+                <label for="receiverId">Receiver ID:</label>
+                <input type="text" id="receiverId" name="receiverId" ng-model="shipmentDetails.ReceiverId" readonly>
+            </div>
+            <div >
+                <label for="shipperID">Shipper ID (Dropdown):</label>
+                <select id="shipperID" name="shipperID" ng-model="shipmentDetails.ShipperID">
+                    <option value="">Select Shipper</option>
+                    <option ng-repeat="shipper in shippers" value="{{ shipper.ID }}">{{ shipper.Name }}</option>
+                </select>
+            </div>
+            <div hidden>
+                <label for="destination">Destination:</label>
+                <input type="text" id="destination" name="destination" ng-model="shipmentDetails.Destination" readonly>
+            </div>
+            <div hidden>
+                <label for="from">From:</label>
+                <input type="text" id="from" name="from" ng-model="shipmentDetails.From" readonly>
+            </div>
+            <div>
+                <label for="statusId">Status ID (Dropdown):</label>
+                <select id="statusId" name="statusId" ng-model="shipmentDetails.StatusId">
+                    <option value="">Select Status</option>
+                    <option ng-repeat="status in statuses" value="{{ status.Id }}">{{ status.Name }}</option>
+                </select>
+            </div>
+            <div>
+                <label for="estimatedDeliveryTime">Estimated Delivery Time (Date):</label>
+                <input type="date" id="estimatedDeliveryTime" name="estimatedDeliveryTime"
+                    ng-model="shipmentDetails.EstimatedDeliveryTime">
+            </div>
+            <button type="button" ng-click="updateShipment()">Update</button>
+        </form>
+
+
+    </div>
+</body>
+
+</html>

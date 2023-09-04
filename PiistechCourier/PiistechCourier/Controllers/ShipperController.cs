@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Web.Http;
 using PiistechCourier.Auth;
 using System.Web.Http.Cors;
+using BLL.DTOs;
 
 namespace PiistechCourier.Controllers
 {
@@ -67,6 +68,28 @@ namespace PiistechCourier.Controllers
             var res = ShipperService.DeleteShipper(id);
             return Request.CreateResponse(HttpStatusCode.OK, res);
 
+        }
+
+        // Add a shipper
+        [HttpPost]
+        [Route("create")]
+        public HttpResponseMessage CreateShipper(ShipperDTO dto)
+        {
+            try
+            {
+
+                var data = ShipperService.Create(dto);
+
+                if (data != null) return Request.CreateResponse(HttpStatusCode.Created, data);
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, data);
+
+            }
+
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, ex.Message);
+            }
         }
     }
 }

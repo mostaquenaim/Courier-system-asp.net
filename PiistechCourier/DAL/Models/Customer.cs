@@ -9,6 +9,7 @@ namespace DAL.Models
 {
     public class Customer
     {
+        [Key]
         public int Id { get; set; }
 
         [Required]
@@ -17,6 +18,7 @@ namespace DAL.Models
         [Required]
         public string PhoneNo { get; set; }
 
+        [Required]
         public string Address { get; set; }
 
         public string Email { get; set; }

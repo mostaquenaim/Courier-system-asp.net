@@ -19,7 +19,6 @@ namespace BLL.DTOs
 
         public int ReceiverId { get; set; }
 
-        [Required]
         public string Destination { get; set; }
 
         public string From { get; set; }

@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Web.Http;
 using BLL.DTOs;
 using System.Web.Http.Cors;
+using PiistechCourier.Auth;
 
 namespace PiistechCourier.Controllers
 {
@@ -75,7 +76,7 @@ namespace PiistechCourier.Controllers
             }
         } */
 
-        //[AdminAccess]
+        [AdminAccess]
         [HttpDelete]
         [Route("delete/{trackingToken}")]
         public HttpResponseMessage DeleteShipment(string trackingToken)
@@ -109,5 +110,28 @@ namespace PiistechCourier.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }
+
+        // Update a shipment
+        [HttpPut]
+        [Route("update")]
+        public HttpResponseMessage UpdateShipment(ShipmentDTO dto)
+        {
+            try
+            {
+                var data = ShipmentService.Update(dto);
+
+                if (data != null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, data);
+                }
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, data);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, ex.Message);
+            }
+        }
+
     }
 }

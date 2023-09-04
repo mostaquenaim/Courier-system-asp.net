@@ -9,6 +9,7 @@ namespace DAL.Models
 {
     public class Receiver
     {
+        [Key]
         public int Id { get; set; }
 
         [Required]

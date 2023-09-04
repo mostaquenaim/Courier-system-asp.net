@@ -46,5 +46,21 @@ namespace BLL.Services
             var res = DataAccessFactory.ShipperData().Delete(id);
             return res;
         }
+
+        //add shipper
+        public static ShipperDTO Create(ShipperDTO dto)
+        {
+
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<ShipperDTO, Shipper>());
+
+            var mapper = new Mapper(config);
+
+            var dbObj = mapper.Map<Shipper>(dto);
+
+            var ret = DataAccessFactory.ShipperData().Create(dbObj);
+
+            return Get(ret.ID);
+
+        }
     }
 }

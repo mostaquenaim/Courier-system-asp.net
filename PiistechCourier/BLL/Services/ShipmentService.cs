@@ -50,7 +50,6 @@ namespace BLL.Services
         //add shipment
         public static ShipmentDTO Create(ShipmentDTO dto)
         {
-
             var config = new MapperConfiguration(cfg => cfg.CreateMap<ShipmentDTO, Shipment>());
 
             var mapper = new Mapper(config);
@@ -62,5 +61,25 @@ namespace BLL.Services
             return Get(ret.TrackingToken);
 
         }
+
+        //update shipment
+        public static ShipmentDTO Update(ShipmentDTO dto)
+        {
+            var existingShipment = DataAccessFactory.ShipmentData().Read(dto.TrackingToken);
+
+            if (existingShipment == null)
+            {
+                throw new Exception("Shipment not found");
+            }
+
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<ShipmentDTO, Shipment>());
+            var mapper = new Mapper(config);
+            mapper.Map(dto, existingShipment);
+           // mapper.Map<ShipmentDTO>(existingShipment);
+            var updatedShipment = DataAccessFactory.ShipmentData().Update(existingShipment);
+
+            return Get(updatedShipment.TrackingToken); ;
+        }
+
     }
 }

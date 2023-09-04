@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-US">
+    <link rel="stylesheet" href="project..css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
     <script>
 
@@ -7,8 +9,9 @@
     <body ng-app="my-app">
         <div ng-controller="AdminController">
             <h1>Admin Dashboard</h1>
-            <button ng-click="btn1()">Add a new courier</button> <br>
-            <button ng-click="btn2()">All Courier Details</button> <br>
+            <button ng-click="btn1()">Add a new courier</button> <br> <br>
+            <button ng-click="btn2()">All Courier Details</button> <br> <br>
+            <button ng-click="btn3()">Add Shipper</button> <br> <br>
 
         </div>
         <script>
@@ -16,14 +19,17 @@
             app.controller('AdminController', function($scope, $window) {
               
               $scope.btn1 = function(){
-                
                 var url = "customerInfo.html";
                 $window.location.href = url;
               }
 
               $scope.btn2 = function(){
-                
                 var url = "all-courier-details.html";
+                $window.location.href = url;
+              }
+
+              $scope.btn3 = function(){
+                var url = "add-shipper.html";
                 $window.location.href = url;
               }
             });

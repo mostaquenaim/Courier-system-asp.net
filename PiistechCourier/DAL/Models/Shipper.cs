@@ -9,6 +9,7 @@ namespace DAL.Models
 {
     public class Shipper
     {
+        [Key]
         public int ID { get; set; }
 
         [Required]

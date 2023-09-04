@@ -9,6 +9,7 @@ namespace DAL.Models
 {
     public class Status
     {
+        [Key]
         public int Id { get; set; }
 
         [Required]

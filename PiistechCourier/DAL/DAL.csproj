@@ -84,6 +84,14 @@
     <Compile Include="Migrations\202309031730167_Id-key-shipment.designer.cs">
       <DependentUpon>202309031730167_Id-key-shipment.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202309031832037_KeyAdded.cs" />
+    <Compile Include="Migrations\202309031832037_KeyAdded.designer.cs">
+      <DependentUpon>202309031832037_KeyAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202309040011186_requiredDb.cs" />
+    <Compile Include="Migrations\202309040011186_requiredDb.designer.cs">
+      <DependentUpon>202309040011186_requiredDb.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Admin.cs" />
     <Compile Include="Models\CourierContext.cs" />
@@ -128,6 +136,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202309031730167_Id-key-shipment.resx">
       <DependentUpon>202309031730167_Id-key-shipment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202309031832037_KeyAdded.resx">
+      <DependentUpon>202309031832037_KeyAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202309040011186_requiredDb.resx">
+      <DependentUpon>202309040011186_requiredDb.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
