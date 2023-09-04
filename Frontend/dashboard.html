@@ -13,6 +13,8 @@
             <button ng-click="btn2()">All Courier Details</button> <br> <br>
             <button ng-click="btn3()">Add Shipper</button> <br> <br>
             <button ng-click="btn4()">Track product by token ID</button> <br> <br>
+            <button ng-click="btn5()">List of Customers</button> <br> <br>
+            <button ng-click="btn6()">List of Shippers</button> <br> <br>
 
         </div>
         <script>
@@ -36,6 +38,14 @@
 
               $scope.btn4 = function(){
                 $window.location.href = 'tracking.html';
+              }
+
+              $scope.btn5 = function(){
+                $window.location.href = 'get-all-customers.html';
+              }
+
+              $scope.btn6 = function(){
+                $window.location.href = 'get-all-shippers.html';
               }
             });
           </script>

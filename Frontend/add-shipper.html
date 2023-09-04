@@ -43,11 +43,12 @@
     <body ng-app="my-app">
         <div ng-controller="ShipperInfoController">
             <h1>Shipper Information</h1>
-            <!-- Display success message -->
+
             <div ng-if="successMessage">
                 <p style="color: green;"><strong>{{ successMessage }}</strong></p>
             </div>
-            <!-- Display shipper details when available -->
+           
+            
             <div ng-if="shipperDetails">
                 <p><strong>Id:</strong> {{ shipperDetails.ID }}</p>
                 <p><strong>Name:</strong> {{ shipperDetails.Name }}</p>

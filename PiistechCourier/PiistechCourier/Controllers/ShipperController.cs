@@ -60,8 +60,8 @@ namespace PiistechCourier.Controllers
             }
         } */
 
-        [AdminAccess]
-        [HttpGet]
+        //[AdminAccess]
+        [HttpDelete]
         [Route("delete/{id}")]
         public HttpResponseMessage DeleteShipper(int id)
         {

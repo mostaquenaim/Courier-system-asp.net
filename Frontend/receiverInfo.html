@@ -26,7 +26,7 @@
                         Address: $scope.receiver.address,
                         Email: $scope.receiver.email
                     };
-                    // Display receiver details
+
                     $http.post('https://localhost:44324/api/receiver/create', receiverData)
                         .then(function success(response) {
                             $scope.receiverDetails = response.data;

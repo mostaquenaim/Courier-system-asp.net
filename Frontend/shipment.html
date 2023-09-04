@@ -15,7 +15,7 @@
                 EstimatedDeliveryTime: null
             };
 
-            // Fetch Customer IDs from the API
+
             $http.get('https://localhost:44324/api/customer/all')
                 .then(function success(response) {
                     $scope.CustomerIds = response.data.map(function (customer) {
@@ -25,8 +25,8 @@
                     console.error('Error fetching customer IDs:', response);
                 });
 
-            // Fetch Receiver IDs from the API
-            $http.get('https://localhost:44324/api/receiver/all')
+
+                $http.get('https://localhost:44324/api/receiver/all')
                 .then(function success(response) {
                     $scope.ReceiverIds = response.data.map(function (receiver) {
                         return receiver.Id;
