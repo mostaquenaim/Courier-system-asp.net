@@ -76,7 +76,7 @@ namespace PiistechCourier.Controllers
             }
         } */
 
-        [AdminAccess]
+        //[AdminAccess]
         [HttpDelete]
         [Route("delete/{trackingToken}")]
         public HttpResponseMessage DeleteShipment(string trackingToken)
