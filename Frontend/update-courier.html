@@ -112,7 +112,7 @@
             </div>
             <div>
                 <label for="estimatedDeliveryTime">Estimated Delivery Time (Date):</label>
-                <input type="date" id="estimatedDeliveryTime" name="estimatedDeliveryTime"
+                <input type="datetime-local" id="estimatedDeliveryTime" name="estimatedDeliveryTime"
                     ng-model="shipmentDetails.EstimatedDeliveryTime">
             </div>
             <button type="button" ng-click="updateShipment()">Update</button>

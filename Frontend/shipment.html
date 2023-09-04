@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-US">
-    <link rel="stylesheet" href="project..css">
+<link rel="stylesheet" href="project..css">
 
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 <script>
@@ -26,7 +26,7 @@
                 });
 
 
-                $http.get('https://localhost:44324/api/receiver/all')
+            $http.get('https://localhost:44324/api/receiver/all')
                 .then(function success(response) {
                     $scope.ReceiverIds = response.data.map(function (receiver) {
                         return receiver.Id;
@@ -37,9 +37,12 @@
 
             $http.get('https://localhost:44324/api/shipper/all')
                 .then(function success(response) {
-                    $scope.ShipperIDs = response.data.map(function (shipper) {
-                        return shipper.ID;
-                    });
+                    $scope.shippers = response.data;
+
+                    // $scope.ShipperNames = response.data.map(function (shipper) {
+                    //     return shipper.Name;
+                    // });
+
                 }, function error(response) {
                     console.error('Error fetching receiver IDs:', response);
                 });
@@ -51,28 +54,33 @@
                 $http.post('https://localhost:44324/api/shipment/create', $scope.shipment)
                     .then(function success(response) {
                         console.log('Shipment created:', response.data);
+                        $scope.updatedData = response.data;
 
-                        $scope.shipment = {
-                            CustomerId: null,
-                            ReceiverId: null,
-                            ShipperID: null,
-                            Destination: '',
-                            From: '',
-                            EstimatedDeliveryTime: null
-                        };
+                        $http.get('https://localhost:44324/api/status/' +  $scope.updatedData.StatusId)
+                            .then(function success(resp) {
+                                console.log('Status received', resp);
+                                $scope.status = resp.data;
+                                // debugger;
+                            }, function error(resp) {
+                                console.error('Error getting status:', resp);
+                                // debugger;
+                            });
 
-                        var url = "dashboard.html";
-                        $window.location.href = url;
-
+                        $scope.shipmentAdded = true;
                     }, function error(response) {
                         console.error('Error creating shipment:', response);
                     });
             };
+
+            $scope.finish = function () {
+                var url = "dashboard.html";
+                $window.location.href = url;
+            };
         });
 </script>
 
-<body ng-app="my-app">
-    <div ng-controller="ShipmentController">
+<body ng-app="my-app" ng-controller="ShipmentController">
+    <div ng-show="!shipmentAdded">
         <h1>Add Shipment</h1>
         <form>
             <div>
@@ -91,10 +99,10 @@
             </div>
 
             <div>
-                <label for="ShipperID">Shipper ID:</label>
+                <label for="ShipperID">Shipper :</label>
                 <select id="ShipperID" ng-model="shipment.ShipperID" required>
-                    <option value="" disabled>Select Receiver ID</option>
-                    <option ng-repeat="ShipperID in ShipperIDs" value="{{ShipperID}}">{{ShipperID}}</option>
+                    <option value="" disabled>Select Shipper</option>
+                    <option ng-repeat="shipper in shippers" value="{{ shipper.ID }}">{{ shipper.Name }}</option>
                 </select>
             </div>
 
@@ -116,6 +124,26 @@
             </div>
         </form>
     </div>
+
+    <div ng-show="shipmentAdded">
+        <h1>Shipment Details Added</h1>
+
+        <p><strong>Customer ID:</strong> {{ shipment.CustomerId }}</p>
+        <p><strong>Receiver ID:</strong> {{ shipment.ReceiverId }}</p>
+        <p><strong>Shipper ID:</strong> {{ shipment.ShipperID }}</p>
+        <p><strong>Destination:</strong> {{ shipment.Destination }}</p>
+        <p><strong>From:</strong> {{ shipment.From }}</p>
+        <p><strong>Tracking Token:</strong> {{ updatedData.TrackingToken }}</p>
+        <p><strong>Status:</strong> {{ status.Name }}</p>
+        <p><strong>Created at:</strong> {{ updatedData.CreatedAt }}</p>
+        <p><strong>Estimated Delivery Time:</strong> {{ shipment.EstimatedDeliveryTime }}</p>
+
+        <div>
+            <button type="button" ng-click="finish()">Done</button>
+        </div>
+    </div>
+
+
 </body>
 
 </html>
