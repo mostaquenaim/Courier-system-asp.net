@@ -8,6 +8,11 @@
 
     <div>
         <h1>Shipper Details</h1>
+        <label for="shipperId">Search by ID:</label>
+        <input type="text" id="shipperId" ng-model="searchId">
+        <button ng-click="searchShipper()">Search</button>
+        
+
         <table border="1">
             <thead>
                 <tr>
@@ -18,7 +23,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="shipper in shippers">
+
+                <tr ng-repeat="shipper in displayedShippers">
                     <td>{{ shipper.ID }}</td>
                     <td>{{ shipper.Name }}</td>
                     <td>{{ shipper.Email }}</td>
@@ -30,32 +36,86 @@
         </table>
     </div>
 
+    <div id="pagination">
+        <button ng-click="prevPage()" ng-disabled="currentPage === 1">Previous</button>
+        Page {{ currentPage }} of {{ totalPages }}
+        <button ng-click="nextPage()" ng-disabled="currentPage === totalPages">Next</button>
+    </div>
+
     <script>
         angular.module('my-app', [])
             .controller('ShipperController', function ($scope, $http) {
                 $scope.shippers = [];
-
+                $scope.displayedShippers = []; 
+                $scope.searchId = '';
+                $scope.currentPage = 1;
+                $scope.pageSize = 7; 
 
                 $scope.fetchShippers = function () {
                     $http.get('https://localhost:44324/api/shipper/all')
                         .then(function success(response) {
                             $scope.shippers = response.data;
+                            $scope.updateDisplayedShippers();
                         }, function error(response) {
                             console.error('Error fetching shippers:', response);
                         });
                 };
 
 
+                $scope.updateDisplayedShippers = function () {
+                    var startIndex = ($scope.currentPage - 1) * $scope.pageSize;
+                    var endIndex = startIndex + $scope.pageSize;
+                    $scope.displayedShippers = $scope.shippers.slice(startIndex, endIndex);
+                };
+
                 $scope.deleteShipper = function (shipperID) {
                     if (confirm('Are you sure you want to delete this shipper?')) {
                         $http.delete('https://localhost:44324/api/shipper/delete/' + shipperID)
                             .then(function success(response) {
-                                $scope.fetchShippers(); 
+                                $scope.fetchShippers();
                             }, function error(response) {
                                 console.error('Error deleting shipper:', response);
                             });
                     }
                 };
+
+                $scope.searchShipper = function () {
+                    if ($scope.searchId) {
+
+                        $http.get('https://localhost:44324/api/shipper/' + $scope.searchId)
+                            .then(function success(response) {
+
+                                $scope.searchId = '';
+                                $scope.shippers = [response.data];
+                                $scope.currentPage = 1; 
+                                $scope.updateDisplayedShippers();
+                            }, function error(response) {
+                                console.error('Error searching shipper:', response);
+                            });
+                    } else {
+
+                        $scope.fetchShippers();
+                    }
+                };
+
+                $scope.prevPage = function () {
+                    if ($scope.currentPage > 1) {
+                        $scope.currentPage--;
+                        $scope.updateDisplayedShippers();
+                    }
+                };
+
+                $scope.nextPage = function () {
+                    if ($scope.currentPage < $scope.totalPages) {
+                        $scope.currentPage++;
+                        $scope.updateDisplayedShippers();
+                    }
+                };
+
+
+                $scope.$watch('shippers.length', function (newVal) {
+                    $scope.totalPages = Math.ceil(newVal / $scope.pageSize);
+                });
 
 
                 $scope.fetchShippers();

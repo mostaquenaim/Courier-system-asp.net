@@ -1,53 +1,88 @@
 <!DOCTYPE html>
 <html lang="en-US">
-    <link rel="stylesheet" href="project..css">
+<link rel="stylesheet" href="project.css">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-    <script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script>
 
 </script>
-    <body ng-app="my-app">
-        <div ng-controller="AdminController">
-            <h1>Admin Dashboard</h1>
-            <button ng-click="btn1()">Add a new courier</button> <br> <br>
-            <button ng-click="btn2()">All Courier Details</button> <br> <br>
-            <button ng-click="btn3()">Add Shipper</button> <br> <br>
-            <button ng-click="btn4()">Track product by token ID</button> <br> <br>
-            <button ng-click="btn5()">List of Customers</button> <br> <br>
-            <button ng-click="btn6()">List of Shippers</button> <br> <br>
 
-        </div>
-        <script>
-            var app = angular.module('my-app', []);
-            app.controller('AdminController', function($scope, $window) {
-              
-              $scope.btn1 = function(){
-                var url = "customerInfo.html";
-                $window.location.href = url;
-              }
+<body ng-app="my-app">
+  <div ng-controller="AdminController">
+    <h1>Admin Dashboard</h1>
+    <!-- <input type="text" ng-model="searchText" placeholder="Search options">
+    <button ng-click="searchOptions()">Search</button> <br> <br> -->
 
-              $scope.btn2 = function(){
-                var url = "all-courier-details.html";
-                $window.location.href = url;
-              }
+    <div ng-if="filteredOptions.length == 0">
+      <button ng-click="btn1()">Add a new courier</button> <br> <br>
+      <button ng-click="btn2()">All Courier Details</button> <br> <br>
+      <button ng-click="btn3()">Add Shipper</button> <br> <br>
+      <button ng-click="btn4()">Track product by token ID</button> <br> <br>
+      <button ng-click="btn5()">List of Customers</button> <br> <br>
+      <button ng-click="btn6()">List of Shippers</button> <br> <br>
+    </div>
 
-              $scope.btn3 = function(){
-                var url = "add-shipper.html";
-                $window.location.href = url;
-              }
 
-              $scope.btn4 = function(){
-                $window.location.href = 'tracking.html';
-              }
+    <ul ng-if="filteredOptions.length > 0">
+      <li ng-repeat="option in filteredOptions">{{ option }}</li>
+    </ul>
 
-              $scope.btn5 = function(){
-                $window.location.href = 'get-all-customers.html';
-              }
+  </div>
+  <script>
+    var app = angular.module('my-app', []);
+    app.controller('AdminController', function ($scope, $window) {
 
-              $scope.btn6 = function(){
-                $window.location.href = 'get-all-shippers.html';
-              }
-            });
-          </script>
-    </body>
+      $scope.searchText = '';
+      $scope.options = [
+        "Add a new courier",
+        "All Courier Details",
+        "Add Shipper",
+        "Track product by token ID",
+        "List of Customers",
+        "List of Shippers"
+      ];
+
+      $scope.filteredOptions = [];
+
+      $scope.searchOptions = function () {
+        if ($scope.searchText) {
+          $scope.filteredOptions = $scope.options.filter(function (option) {
+
+            return option.toLowerCase().includes($scope.searchText.toLowerCase());
+          });
+        } else {
+          $scope.filteredOptions = [];
+        }
+      };
+
+      $scope.btn1 = function () {
+        var url = "customerInfo.html";
+        $window.location.href = url;
+      }
+
+      $scope.btn2 = function () {
+        var url = "all-courier-details.html";
+        $window.location.href = url;
+      }
+
+      $scope.btn3 = function () {
+        var url = "add-shipper.html";
+        $window.location.href = url;
+      }
+
+      $scope.btn4 = function () {
+        $window.location.href = 'tracking.html';
+      }
+
+      $scope.btn5 = function () {
+        $window.location.href = 'get-all-customers.html';
+      }
+
+      $scope.btn6 = function () {
+        $window.location.href = 'get-all-shippers.html';
+      }
+    });
+  </script>
+</body>
+
 </html>

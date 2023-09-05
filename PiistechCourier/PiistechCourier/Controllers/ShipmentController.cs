@@ -29,21 +29,27 @@ namespace PiistechCourier.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, new { Message = ex.Message });
             }
         }
-      /*  [HttpGet]
-        [Route("{id}")]
-        public HttpResponseMessage Shipment(string id)
+
+        //search shipment
+        [HttpGet]
+        [Route("search")]
+        public HttpResponseMessage SearchShipments(string field, string value)
         {
             try
             {
-                var data = ShipmentService.Get(id);
-                return Request.CreateResponse(HttpStatusCode.OK, data);
+                if (value != null && value.Length > 0)
+                {
+                    var data = ShipmentService.GetSearchedList(field, value);
+                    return Request.CreateResponse(HttpStatusCode.OK, data);
+                }
+                return Shipments();
             }
             catch (Exception ex)
             {
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, new { Message = ex.Message });
             }
-        } */
-       
+        }
+
 
         [HttpGet]
         [Route("track/{trackingToken}")]
@@ -59,22 +65,6 @@ namespace PiistechCourier.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, new { Message = ex.Message });
             }
         }
-
-        //[Logged]
-        /* [HttpGet]
-        [Route("api/shipments/{id}/comments")]
-        public HttpResponseMessage ShipmentComments(int id)
-        {
-            try
-            {
-                var data = ShipmentService.GetwithComments(id);
-                return Request.CreateResponse(HttpStatusCode.OK, data);
-            }
-            catch (Exception ex)
-            {
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, new { Message = ex.Message });
-            }
-        } */
 
         //[AdminAccess]
         [HttpDelete]
@@ -132,6 +122,8 @@ namespace PiistechCourier.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }
+
+       
 
     }
 }

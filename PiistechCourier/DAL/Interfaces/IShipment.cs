@@ -18,6 +18,8 @@ namespace DAL.Interfaces
 
         bool Delete(string id);
 
+        List<TClass> ReadBySearch(string item, string value);
+
 
     }
 }

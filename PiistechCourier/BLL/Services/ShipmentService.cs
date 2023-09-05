@@ -40,6 +40,20 @@ namespace BLL.Services
             return mapped;
         }
 
+        //searched item 
+        public static List<ShipmentDTO> GetSearchedList(string field, string value)
+        {
+            var data = DataAccessFactory.ShipmentData().ReadBySearch(field, value);
+            var cfg = new MapperConfiguration(c =>
+            {
+                c.CreateMap<Shipment, ShipmentDTO>();
+            }
+            );
+            var mapper = new Mapper(cfg);
+            var mapped = mapper.Map<List<ShipmentDTO>>(data);
+            return mapped;
+        }
+
         //delete Shipment
         public static bool DeleteShipment(string id)
         {
